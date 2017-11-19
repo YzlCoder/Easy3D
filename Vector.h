@@ -1,5 +1,5 @@
 #pragma once
-#include "define.h"
+#include "MathDefine.h"
 
 namespace easym
 {
@@ -9,7 +9,7 @@ namespace easym
 	public:
 		//constructed destructor
 		Vector2() :x(0), y(0) {}
-		Vector2(float _x, float _y) :x(_x), y(_y) {}
+		Vector2(real _x, real _y) :x(_x), y(_y) {}
 		Vector2(const Vector2& other) :x(other.x), y(other.y) {}
 		~Vector2() {}
 
@@ -40,13 +40,13 @@ namespace easym
 		{
 			return Vector2(-x, -y);
 		}
-		Vector2 operator*(float a)const
+		Vector2 operator*(real a)const
 		{
 			return Vector2(a * x, a * y);
 		}
-		Vector2 operator/(float a)const
+		Vector2 operator/(real a)const
 		{
-			float oneOverA = 1.0f / a;
+			real oneOverA = 1.0f / a;
 			return Vector2(oneOverA * x, oneOverA * y);
 		}
 		Vector2& operator+=(const Vector2& other)
@@ -61,49 +61,56 @@ namespace easym
 			y -= other.y;
 			return *this;
 		}
-		Vector2& operator*=(float a)
+		Vector2& operator*=(real a)
 		{
 			x *= a;
 			y *= a;
 			return *this;
 		}
-		Vector2& operator/=(float a)
+		Vector2& operator/=(real a)
 		{
-			float oneOverA = 1.0f / a;
+			real oneOverA = 1.0f / a;
 			x *= oneOverA;
 			y *= oneOverA;
 			return *this;
 		}
 
 		//member func
-		float magnitude()const
+		real magnitude()const
 		{
 			return sqrt(x*x + y*y);
 		}
-		float sqrMagnitude()const
+		real sqrMagnitude()const
 		{
 			return x*x + y*y;
 		}
 		Vector2 normalize()const
 		{
-			float len = magnitude();
+			real len = magnitude();
 			if (len > 0.0f)
 			{
-				float oneOverLen = 1.0f / len;
+				real oneOverLen = 1.0f / len;
 				return Vector2(x * oneOverLen, y * oneOverLen);
 			}
 			return zero;
 		}
 		void Normalize()
 		{
-			float len = magnitude();
+			real len = magnitude();
 			if (len > 0.0f)
 			{
-				float oneOverLen = 1.0f / len;
+				real oneOverLen = 1.0f / len;
 				x *= oneOverLen;
 				y *= oneOverLen;
 			}
 		}
+
+#ifdef DEBUG
+		void DebugLog() const
+		{
+			std::cout << "(" << x << ", " << y << ")" << std::endl;
+		}
+#endif // DEBUG
 
 		//member data
 		static const Vector2 left;
@@ -112,7 +119,7 @@ namespace easym
 		static const Vector2 down;
 		static const Vector2 zero;
 		static const Vector2 one;
-		float x, y;
+		real x, y;
 	};
 
 
@@ -121,7 +128,7 @@ namespace easym
 	public:
 		//constructed destructor
 		Vector3() :x(0), y(0), z(0) {}
-		Vector3(float _x, float _y, float _z) :x(_x), y(_y), z(_z) {}
+		Vector3(real _x, real _y, real _z) :x(_x), y(_y), z(_z) {}
 		Vector3(const Vector2 v2) : x(v2.x), y(v2.y), z(0) {}
 		Vector3(const Vector3& other) :x(other.x), y(other.y), z(other.z) {}
 		~Vector3() {}
@@ -154,13 +161,13 @@ namespace easym
 		{
 			return Vector3(-x, -y, -z);
 		}
-		Vector3 operator*(float a)const
+		Vector3 operator*(real a)const
 		{
 			return Vector3(a * x, a * y, a * z);
 		}
-		Vector3 operator/(float a)const
+		Vector3 operator/(real a)const
 		{
-			float oneOverA = 1.0f / a;
+			real oneOverA = 1.0f / a;
 			return Vector3(oneOverA * x, oneOverA * y, oneOverA * z);
 		}
 		Vector3& operator+=(const Vector3& other)
@@ -177,16 +184,16 @@ namespace easym
 			z += other.z;
 			return *this;
 		}
-		Vector3& operator*=(float a)
+		Vector3& operator*=(real a)
 		{
 			x *= a;
 			y *= a;
 			z *= a;
 			return *this;
 		}
-		Vector3& operator/=(float a)
+		Vector3& operator/=(real a)
 		{
-			float oneOverA = 1.0f / a;
+			real oneOverA = 1.0f / a;
 			x *= oneOverA;
 			y *= oneOverA;
 			z *= oneOverA;
@@ -194,35 +201,42 @@ namespace easym
 		}
 
 		//member func
-		float magnitude()const
+		real magnitude()const
 		{
 			return sqrt(x*x + y*y + z*z);
 		}
-		float sqrMagnitude()const
+		real sqrMagnitude()const
 		{
 			return x*x + y*y + z*z;;
 		}
 		Vector3 normalize()const
 		{
-			float len = magnitude();
+			real len = magnitude();
 			if (len > 0.0f)
 			{
-				float oneOverLen = 1.0f / len;
+				real oneOverLen = 1.0f / len;
 				return Vector3(x * oneOverLen, y * oneOverLen, z * oneOverLen);
 			}
 			return zero;
 		}
 		void Normalize()
 		{
-			float len = magnitude();
-			if (len > 0.0f)
+			real len = magnitude();
+			if (len > 0.0f && !equal(len, 1.0f))
 			{
-				float oneOverLen = 1.0f / len;
+				real oneOverLen = 1.0f / len;
 				x *= oneOverLen;
 				y *= oneOverLen;
 				z *= oneOverLen;
 			}
 		}
+
+#ifdef DEBUG
+		void DebugLog() const
+		{
+			std::cout << "(" << x << ", " << y << ", " << z << ")" << std::endl;
+		}
+#endif // DEBUG
 
 		//member data
 		static const Vector3 left;
@@ -233,7 +247,7 @@ namespace easym
 		static const Vector3 back;
 		static const Vector3 zero;
 		static const Vector3 one;
-		float x, y, z;
+		real x, y, z;
 	};
 
 
@@ -242,7 +256,7 @@ namespace easym
 	public:
 		//constructed destructor
 		Vector4() :x(0), y(0), z(0) {}
-		Vector4(float _x, float _y, float _z, float _w) :x(_x), y(_y), z(_z), w(_w) {}
+		Vector4(real _x, real _y, real _z, real _w) :x(_x), y(_y), z(_z), w(_w) {}
 		Vector4(const Vector2 v2) : x(v2.x), y(v2.y), z(0), w(0) {}
 		Vector4(const Vector3 v3) : x(v3.x), y(v3.y), z(v3.z), w(0) {}
 		Vector4(const Vector4& other) :x(other.x), y(other.y), z(other.z), w(other.w) {}
@@ -277,13 +291,13 @@ namespace easym
 		{
 			return Vector4(-x, -y, -z, -w);
 		}
-		Vector4 operator*(float a)const
+		Vector4 operator*(real a)const
 		{
 			return Vector4(a * x, a * y, a * z, a * w);
 		}
-		Vector4 operator/(float a)const
+		Vector4 operator/(real a)const
 		{
-			float oneOverA = 1.0f / a;
+			real oneOverA = 1.0f / a;
 			return Vector4(oneOverA * x, oneOverA * y, oneOverA * z, oneOverA * z);
 		}
 		Vector4& operator+=(const Vector4& other)
@@ -302,7 +316,7 @@ namespace easym
 			w += other.w;
 			return *this;
 		}
-		Vector4& operator*=(float a)
+		Vector4& operator*=(real a)
 		{
 			x *= a;
 			y *= a;
@@ -310,9 +324,9 @@ namespace easym
 			w *= a;
 			return *this;
 		}
-		Vector4& operator/=(float a)
+		Vector4& operator/=(real a)
 		{
-			float oneOverA = 1.0f / a;
+			real oneOverA = 1.0f / a;
 			x *= oneOverA;
 			y *= oneOverA;
 			z *= oneOverA;
@@ -320,23 +334,30 @@ namespace easym
 			return *this;
 		}
 
-		float x, y, z, w;
+#ifdef DEBUG
+		void DebugLog() const
+		{
+			std::cout << "(" << x << ", " << y << ", " << z << ", " << w << ")" << std::endl;
+		}
+#endif // DEBUG
+
+		real x, y, z, w;
 	};
 
-	float Dot(const Vector2&, const Vector2&);
-	float Dot(const Vector3&, const Vector3&);
+	real Dot(const Vector2&, const Vector2&);
+	real Dot(const Vector3&, const Vector3&);
 
 	Vector2 Cross(const Vector2&, const Vector2&);
 	Vector3 Cross(const Vector3&, const Vector3&);
 
-	float Angle(const Vector2&, const Vector2&);
-	float Angle(const Vector3&, const Vector3&);
+	real Angle(const Vector2&, const Vector2&);
+	real Angle(const Vector3&, const Vector3&);
 
-	float Distance(const Vector2&, const Vector2&);
-	float Distance(const Vector3&, const Vector3&);
+	real Distance(const Vector2&, const Vector2&);
+	real Distance(const Vector3&, const Vector3&);
 
-	Vector2 Lerp(const Vector2&, const Vector2&, float t);
-	Vector3 Lerp(const Vector3&, const Vector3&, float t);
+	Vector2 Lerp(const Vector2&, const Vector2&, real t);
+	Vector3 Lerp(const Vector3&, const Vector3&, real t);
 
 	Vector2 Reflect(const Vector2&, const Vector2&);
 	Vector3 Reflect(const Vector3&, const Vector3&);

@@ -1,4 +1,5 @@
 #pragma once
+#include "MathDefine.h"
 #include "Vector.h"
 
 namespace easym
@@ -8,13 +9,13 @@ namespace easym
 	public:
 		union
 		{
-			float m[4][4];
+			real m[4][4];
 			struct
 			{
-				float _11; float _12; float _13; float _14;
-				float _21; float _22; float _23; float _24;
-				float _31; float _32; float _33; float _34;
-				float _41; float _42; float _43; float _44;
+				real _11; real _12; real _13; real _14;
+				real _21; real _22; real _23; real _24;
+				real _31; real _32; real _33; real _34;
+				real _41; real _42; real _43; real _44;
 			};
 		};
 
@@ -25,10 +26,10 @@ namespace easym
 			_31 = 0; _32 = 0; _33 = 0; _34 = 0;
 			_41 = 0; _42 = 0; _43 = 0; _44 = 0;
 		}
-		Matrix(float a1, float a2, float a3, float a4,
-			float b1, float b2, float b3, float b4,
-			float c1, float c2, float c3, float c4,
-			float d1, float d2, float d3, float d4)
+		Matrix(real a1, real a2, real a3, real a4,
+			real b1, real b2, real b3, real b4,
+			real c1, real c2, real c3, real c4,
+			real d1, real d2, real d3, real d4)
 		{
 			_11 = a1; _12 = a2; _13 = a3; _14 = a4;
 			_21 = b1; _22 = b2; _23 = b3; _24 = b4;
@@ -63,19 +64,29 @@ namespace easym
 		void Transpose(const Matrix& mat);
 
 		//4*4行列式值
-		float det(const Matrix& mat)const;
+		real det(const Matrix& mat)const;
 
 		//3*3行列式值
-		float MatrixAdjElem(
-			float a1, float a2, float a3,
-			float b1, float b2, float b3,
-			float c1, float c2, float c3)const;
+		real MatrixAdjElem(
+			real a1, real a2, real a3,
+			real b1, real b2, real b3,
+			real c1, real c2, real c3)const;
 
 		//伴随矩阵 代数余子式组成的矩阵的转置
 		Matrix adjugate(const Matrix& mat)const;
 
 		//逆矩阵 = 伴随矩阵/(行列式值的绝对值)
 		Matrix inverse(const Matrix& mat)const;
+
+#ifdef DEBUG
+		void DebugLog() const
+		{
+			std::cout << "|" << _11 << ", " << _12 << ", " << _13 << ", " << _14 << "|" << std::endl;
+			std::cout << "|" << _21 << ", " << _22 << ", " << _23 << ", " << _24 << "|" << std::endl;
+			std::cout << "|" << _31 << ", " << _32 << ", " << _33 << ", " << _34 << "|" << std::endl;
+			std::cout << "|" << _41 << ", " << _42 << ", " << _43 << ", " << _44 << "|" << std::endl;
+		}
+#endif // DEBUG
 
 	};
 
