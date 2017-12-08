@@ -119,7 +119,18 @@ namespace easym
 		static const Vector2 down;
 		static const Vector2 zero;
 		static const Vector2 one;
-		real x, y;
+
+		union
+		{
+			struct
+			{
+				real x, y;
+			};
+			struct 
+			{
+				real u, v;
+			};
+		};
 	};
 
 
@@ -255,7 +266,7 @@ namespace easym
 	{
 	public:
 		//constructed destructor
-		Vector4() :x(0), y(0), z(0) {}
+		Vector4() :x(0), y(0), z(0), w(0) {}
 		Vector4(real _x, real _y, real _z, real _w) :x(_x), y(_y), z(_z), w(_w) {}
 		Vector4(const Vector2 v2) : x(v2.x), y(v2.y), z(0), w(0) {}
 		Vector4(const Vector3 v3) : x(v3.x), y(v3.y), z(v3.z), w(0) {}
@@ -341,7 +352,18 @@ namespace easym
 		}
 #endif // DEBUG
 
-		real x, y, z, w;
+		union
+		{
+			struct
+			{
+				real x, y, z, w;
+			};
+			struct
+			{
+				real u, v, s, t;
+			};
+		};
+
 	};
 
 	real Dot(const Vector2&, const Vector2&);

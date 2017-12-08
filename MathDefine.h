@@ -30,8 +30,8 @@ namespace easym
 	typedef float real;
 #endif // _DOUBLE
 
-
-
+	typedef unsigned int UINT;
+	typedef unsigned short WORD;
 
 	const real esp = 1e-5f;
 	const real pi = (real)acos(-1.0);

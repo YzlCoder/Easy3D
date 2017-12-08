@@ -33,6 +33,9 @@ namespace easym
 	inline Matrix perspective(real fov, real width, real height, real zNear, real zFar);
 	inline Matrix ortho(real left, real right, real bottom, real top, real zNear, real zFar);
 
+	//ÊÓ¿Ú¾ØÕó
+	inline Matrix viewport(int left, int top, int width, int heigt);
+
 	//ÑÕÉ«to unit
 	inline unsigned int color2Uint(const Vector3& color);
 }

@@ -142,6 +142,18 @@ namespace easym
 		return mat;
 	}
 
+
+	Matrix viewport(int left, int top, int width, int heigt)
+	{
+		return Matrix(
+			width / 2, 0, 0, 0,
+			0, heigt / 2, 0, 0,
+			0, 0, 1, 0,
+			width / 2 + left, heigt / 2 + top, 0, 1
+		);
+	}
+
+
 	unsigned int color2Uint(const Vector3& color)
 	{
 		unsigned char red = 255 * color.x/*  color.w*/;
