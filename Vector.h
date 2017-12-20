@@ -40,6 +40,10 @@ namespace easym
 		{
 			return Vector2(-x, -y);
 		}
+		Vector2 operator*(const Vector2& other)const
+		{
+			return Vector2(x * other.x, y * other.y);
+		}
 		Vector2 operator*(real a)const
 		{
 			return Vector2(a * x, a * y);
@@ -172,6 +176,10 @@ namespace easym
 		{
 			return Vector3(-x, -y, -z);
 		}
+		Vector3 operator*(Vector3 other)const
+		{
+			return Vector3(x * other.x, y * other.y, z * other.z);
+		}
 		Vector3 operator*(real a)const
 		{
 			return Vector3(a * x, a * y, a * z);
@@ -209,6 +217,10 @@ namespace easym
 			y *= oneOverA;
 			z *= oneOverA;
 			return *this;
+		}
+		operator Vector2()
+		{
+			return Vector2(x, y);
 		}
 
 		//member func
@@ -302,6 +314,10 @@ namespace easym
 		{
 			return Vector4(-x, -y, -z, -w);
 		}
+		Vector4 operator*(const Vector4& other)const
+		{
+			return Vector4(x * other.x, y * other.y, z * other.z, w * other.w);
+		}
 		Vector4 operator*(real a)const
 		{
 			return Vector4(a * x, a * y, a * z, a * w);
@@ -343,6 +359,10 @@ namespace easym
 			z *= oneOverA;
 			w *= oneOverA;
 			return *this;
+		}
+		operator Vector3()
+		{
+			return Vector3(x, y, z);
 		}
 
 #ifdef DEBUG

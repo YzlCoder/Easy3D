@@ -156,9 +156,9 @@ namespace easym
 
 	unsigned int color2Uint(const Vector3& color)
 	{
-		unsigned char red = 255 * color.x/*  color.w*/;
-		unsigned char green = 255 * color.y/* color.w*/;
-		unsigned char blue = 255 * color.z /* color.w*/;
+		unsigned char red = static_cast<unsigned char>(255 * color.x)/*  color.w*/;
+		unsigned char green = static_cast<unsigned char>(255 * color.y)/* color.w*/;
+		unsigned char blue = static_cast<unsigned char>(255 * color.z) /* color.w*/;
 		return (unsigned int)((unsigned char)blue | (unsigned short)((unsigned char)green << 8) | (unsigned short)((unsigned char)red << 16));
 	}
 }
