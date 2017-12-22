@@ -23,7 +23,12 @@ namespace easym
 		{
 			if (this == &rhs)
 				return *this;
-			std::swap(*this, Texture2D(rhs));
+			Texture2D clone(rhs);
+			delete[] m_pixelBuffer;
+			m_width = clone.m_width;
+			m_height = clone.m_height;
+			m_pixelBuffer = clone.m_pixelBuffer;
+			clone.m_pixelBuffer = nullptr;
 			return *this;
 		}
 
@@ -36,5 +41,5 @@ namespace easym
 		Vector4* m_pixelBuffer;
 	};
 
-	Texture2D LoadBitmap(wchar_t* filePath);
+	Texture2D LoadTexture2D(wchar_t* filePath);
 }

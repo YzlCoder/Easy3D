@@ -5,8 +5,6 @@
 namespace easym
 {
 
-
-
 	class Quaternion
 	{
 	public:

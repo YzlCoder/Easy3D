@@ -6,16 +6,16 @@ namespace easym
 
 	void Matrix::Identity()
 	{
-		_11 = 1.f; _12 = 0.f; _13 = 0.f; _14 = 0.f;
-		_21 = 0.f; _22 = 1.f; _23 = 0.f; _24 = 0.f;
-		_31 = 0.f; _32 = 0.f; _33 = 1.f; _34 = 0.f;
-		_41 = 0.f; _42 = 0.f; _43 = 0.f; _44 = 1.f;
+		_11 = 1; _12 = 0; _13 = 0; _14 = 0;
+		_21 = 0; _22 = 1; _23 = 0; _24 = 0;
+		_31 = 0; _32 = 0; _33 = 1; _34 = 0;
+		_41 = 0; _42 = 0; _43 = 0; _44 = 1;
 	}
 	void Matrix::Zero()
 	{
 		for (int i = 0; i < 4; ++i)
 			for (int j = 0; j < 4; ++j)
-				m[i][j] = 0.0f;
+				m[i][j] = 0;
 	}
 	bool Matrix::operator==(const Matrix& other) const
 	{
@@ -55,7 +55,7 @@ namespace easym
 		return mat;
 	}
 
-	inline Vector4 operator* (const Vector4& v, const Matrix& m)
+	 Vector4 operator* (const Vector4& v, const Matrix& m)
 	{
 		return Vector4(v.x * m._11 + v.y * m._21 + v.z * m._31 + v.w * m._41,
 			v.x * m._12 + v.y * m._22 + v.z * m._32 + v.w * m._42,
@@ -64,19 +64,21 @@ namespace easym
 	}
 
 	//矩阵转置
-	Matrix Matrix::transpose(const Matrix& mat)const
+	Matrix Matrix::transpose()const
 	{
-		return Matrix(mat._11, mat._21, mat._31, mat._41,
-			mat._12, mat._22, mat._32, mat._42,
-			mat._13, mat._23, mat._33, mat._43,
-			mat._14, mat._24, mat._34, mat._44);
+		return Matrix(
+			_11, _21, _31, _41,
+			_12, _22, _32, _42,
+			_13, _23, _33, _43,
+			_14, _24, _34, _44);
 	}
-	void Matrix::Transpose(const Matrix& mat)
+	void Matrix::Transpose()
 	{
-		*this = Matrix(mat._11, mat._21, mat._31, mat._41,
-			mat._12, mat._22, mat._32, mat._42,
-			mat._13, mat._23, mat._33, mat._43,
-			mat._14, mat._24, mat._34, mat._44);
+		*this = Matrix(
+			_11, _21, _31, _41,
+			_12, _22, _32, _42,
+			_13, _23, _33, _43,
+			_14, _24, _34, _44);
 	}
 
 	//矩阵对应行列式	
@@ -88,26 +90,26 @@ namespace easym
 	+ a13a24a31a42 - a13a24a32a41 - a14a21a32a43 + a14a21a33a42
 	+ a14a22a31a43 - a14a22a33a41 - a14a23a31a42 + a14a23a32a41                                                                     */
 	/************************************************************************/
-	real Matrix::det(const Matrix& mat)const
+	real Matrix::det()const
 	{
 		real result =
-			mat._11*mat._22*mat._33*mat._44 - mat._11*mat._22*mat._34*mat._43 -
-			mat._11*mat._23*mat._32*mat._44 + mat._11*mat._23*mat._34*mat._42 +
+			_11*_22*_33*_44 - _11*_22*_34*_43 -
+			_11*_23*_32*_44 + _11*_23*_34*_42 +
 
-			mat._11*mat._24*mat._32*mat._43 - mat._11*mat._24*mat._33*mat._42 -
-			mat._12*mat._21*mat._33*mat._44 + mat._12*mat._21*mat._34*mat._43 +
+			_11*_24*_32*_43 - _11*_24*_33*_42 -
+			_12*_21*_33*_44 + _12*_21*_34*_43 +
 
-			mat._12*mat._23*mat._31*mat._44 - mat._12*mat._23*mat._34*mat._41 -
-			mat._12*mat._24*mat._31*mat._43 + mat._12*mat._24*mat._33*mat._41 +
+			_12*_23*_31*_44 - _12*_23*_34*_41 -
+			_12*_24*_31*_43 + _12*_24*_33*_41 +
 
-			mat._13*mat._21*mat._32*mat._44 - mat._13*mat._21*mat._34*mat._42 -
-			mat._13*mat._22*mat._31*mat._44 + mat._13*mat._22*mat._34*mat._41 +
+			_13*_21*_32*_44 - _13*_21*_34*_42 -
+			_13*_22*_31*_44 + _13*_22*_34*_41 +
 
-			mat._13*mat._24*mat._31*mat._42 - mat._13*mat._24*mat._32*mat._41 -
-			mat._14*mat._21*mat._32*mat._43 + mat._14*mat._21*mat._33*mat._42 +
+			_13*_24*_31*_42 - _13*_24*_32*_41 -
+			_14*_21*_32*_43 + _14*_21*_33*_42 +
 
-			mat._14*mat._22*mat._31*mat._43 - mat._14*mat._22*mat._33*mat._41 -
-			mat._14*mat._23*mat._31*mat._42 + mat._14*mat._23*mat._32*mat._41;
+			_14*_22*_31*_43 - _14*_22*_33*_41 -
+			_14*_23*_31*_42 + _14*_23*_32*_41;
 
 		return result;
 	}
@@ -122,24 +124,24 @@ namespace easym
 	}
 
 	//伴随矩阵 代数余子式组成的矩阵的转置
-	Matrix Matrix::adjugate(const Matrix& mat)const
+	Matrix Matrix::adjugate()const
 	{
-		real a1 = MatrixAdjElem(mat._22, mat._23, mat._24, mat._32, mat._33, mat._34, mat._42, mat._43, mat._44);
-		real a2 = MatrixAdjElem(mat._21, mat._23, mat._24, mat._31, mat._33, mat._34, mat._41, mat._43, mat._44);
-		real a3 = MatrixAdjElem(mat._21, mat._22, mat._24, mat._31, mat._32, mat._34, mat._41, mat._42, mat._44);
-		real a4 = MatrixAdjElem(mat._21, mat._22, mat._23, mat._31, mat._32, mat._33, mat._41, mat._42, mat._43);
-		real b1 = MatrixAdjElem(mat._12, mat._13, mat._14, mat._32, mat._33, mat._34, mat._42, mat._43, mat._44);
-		real b2 = MatrixAdjElem(mat._11, mat._13, mat._14, mat._31, mat._33, mat._34, mat._41, mat._43, mat._44);
-		real b3 = MatrixAdjElem(mat._11, mat._12, mat._14, mat._31, mat._32, mat._34, mat._41, mat._42, mat._44);
-		real b4 = MatrixAdjElem(mat._11, mat._12, mat._13, mat._31, mat._32, mat._33, mat._41, mat._42, mat._43);
-		real c1 = MatrixAdjElem(mat._12, mat._13, mat._14, mat._22, mat._23, mat._24, mat._42, mat._43, mat._44);
-		real c2 = MatrixAdjElem(mat._11, mat._13, mat._14, mat._21, mat._23, mat._24, mat._41, mat._43, mat._44);
-		real c3 = MatrixAdjElem(mat._11, mat._12, mat._14, mat._21, mat._22, mat._24, mat._41, mat._42, mat._44);
-		real c4 = MatrixAdjElem(mat._11, mat._12, mat._13, mat._21, mat._22, mat._23, mat._41, mat._42, mat._43);
-		real d1 = MatrixAdjElem(mat._12, mat._13, mat._14, mat._22, mat._23, mat._24, mat._32, mat._33, mat._34);
-		real d2 = MatrixAdjElem(mat._11, mat._13, mat._14, mat._21, mat._23, mat._24, mat._31, mat._33, mat._34);
-		real d3 = MatrixAdjElem(mat._11, mat._12, mat._14, mat._21, mat._22, mat._24, mat._31, mat._32, mat._34);
-		real d4 = MatrixAdjElem(mat._11, mat._12, mat._13, mat._21, mat._22, mat._23, mat._31, mat._32, mat._33);
+		real a1 = MatrixAdjElem(_22, _23, _24, _32, _33, _34, _42, _43, _44);
+		real a2 = MatrixAdjElem(_21, _23, _24, _31, _33, _34, _41, _43, _44);
+		real a3 = MatrixAdjElem(_21, _22, _24, _31, _32, _34, _41, _42, _44);
+		real a4 = MatrixAdjElem(_21, _22, _23, _31, _32, _33, _41, _42, _43);
+		real b1 = MatrixAdjElem(_12, _13, _14, _32, _33, _34, _42, _43, _44);
+		real b2 = MatrixAdjElem(_11, _13, _14, _31, _33, _34, _41, _43, _44);
+		real b3 = MatrixAdjElem(_11, _12, _14, _31, _32, _34, _41, _42, _44);
+		real b4 = MatrixAdjElem(_11, _12, _13, _31, _32, _33, _41, _42, _43);
+		real c1 = MatrixAdjElem(_12, _13, _14, _22, _23, _24, _42, _43, _44);
+		real c2 = MatrixAdjElem(_11, _13, _14, _21, _23, _24, _41, _43, _44);
+		real c3 = MatrixAdjElem(_11, _12, _14, _21, _22, _24, _41, _42, _44);
+		real c4 = MatrixAdjElem(_11, _12, _13, _21, _22, _23, _41, _42, _43);
+		real d1 = MatrixAdjElem(_12, _13, _14, _22, _23, _24, _32, _33, _34);
+		real d2 = MatrixAdjElem(_11, _13, _14, _21, _23, _24, _31, _33, _34);
+		real d3 = MatrixAdjElem(_11, _12, _14, _21, _22, _24, _31, _32, _34);
+		real d4 = MatrixAdjElem(_11, _12, _13, _21, _22, _23, _31, _32, _33);
 
 		Matrix result(
 			a1, -a2, a3, -a4,
@@ -147,13 +149,13 @@ namespace easym
 			c1, -c2, c3, -c4,
 			-d1, d2, -d3, d4
 		);
-		return transpose(result);
+		return result.transpose();
 	}
 
-	Matrix Matrix::inverse(const Matrix& mat)const
+	Matrix Matrix::inverse()const
 	{
-		real d = abs(det(mat));
-		Matrix adj = adjugate(mat);
+		real d = abs(det());
+		Matrix adj = adjugate();
 		Matrix inverse;
 		for (int i = 0; i < 4; ++i)
 			for (int j = 0; j < 4; ++j)

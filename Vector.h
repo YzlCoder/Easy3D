@@ -218,7 +218,7 @@ namespace easym
 			z *= oneOverA;
 			return *this;
 		}
-		operator Vector2()
+		operator Vector2()const
 		{
 			return Vector2(x, y);
 		}
@@ -281,7 +281,7 @@ namespace easym
 		Vector4() :x(0), y(0), z(0), w(0) {}
 		Vector4(real _x, real _y, real _z, real _w) :x(_x), y(_y), z(_z), w(_w) {}
 		Vector4(const Vector2 v2) : x(v2.x), y(v2.y), z(0), w(0) {}
-		Vector4(const Vector3 v3) : x(v3.x), y(v3.y), z(v3.z), w(0) {}
+		Vector4(const Vector3 v3) : x(v3.x), y(v3.y), z(v3.z), w(1) {}
 		Vector4(const Vector4& other) :x(other.x), y(other.y), z(other.z), w(other.w) {}
 		~Vector4() {}
 
@@ -360,7 +360,7 @@ namespace easym
 			w *= oneOverA;
 			return *this;
 		}
-		operator Vector3()
+		operator Vector3()const
 		{
 			return Vector3(x, y, z);
 		}
@@ -398,8 +398,13 @@ namespace easym
 	real Distance(const Vector2&, const Vector2&);
 	real Distance(const Vector3&, const Vector3&);
 
+	inline real Lerp(real mi, real mx, real t)
+	{
+		return mi + (mx - mi) * t;
+	}
 	Vector2 Lerp(const Vector2&, const Vector2&, real t);
 	Vector3 Lerp(const Vector3&, const Vector3&, real t);
+	Vector4 Lerp(const Vector4&, const Vector4&, real t);
 
 	Vector2 Reflect(const Vector2&, const Vector2&);
 	Vector3 Reflect(const Vector3&, const Vector3&);

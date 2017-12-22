@@ -34,7 +34,7 @@ namespace easym
 	typedef unsigned short WORD;
 
 	const real esp = 1e-5f;
-	const real pi = (real)acos(-1.0);
+	static real pi = static_cast<real>(3.1415926);
 
 	inline bool equal(real a, real b)
 	{

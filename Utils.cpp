@@ -147,19 +147,19 @@ namespace easym
 	{
 		return Matrix(
 			width / 2, 0, 0, 0,
-			0, heigt / 2, 0, 0,
+			0, -heigt / 2, 0, 0,
 			0, 0, 1, 0,
 			width / 2 + left, heigt / 2 + top, 0, 1
 		);
 	}
 
 
-	unsigned int color2Uint(const Vector3& color)
+	UINT color2Uint(const Vector3& color)
 	{
 		unsigned char red = static_cast<unsigned char>(255 * color.x)/*  color.w*/;
 		unsigned char green = static_cast<unsigned char>(255 * color.y)/* color.w*/;
 		unsigned char blue = static_cast<unsigned char>(255 * color.z) /* color.w*/;
-		return (unsigned int)((unsigned char)blue | (unsigned short)((unsigned char)green << 8) | (unsigned short)((unsigned char)red << 16));
+		return (unsigned int)((unsigned char)blue | (unsigned short)((unsigned char)green << 8) | (unsigned long)((unsigned char)red << 16));
 	}
 }
 

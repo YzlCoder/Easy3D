@@ -113,20 +113,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="easy.h" />
+    <ClInclude Include="BaseShader.h" />
+    <ClInclude Include="BoxShader.h" />
+    <ClInclude Include="Device.h" />
+    <ClInclude Include="DeviceContext.h" />
+    <ClInclude Include="easym.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="MathDefine.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshGenerator.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BoxShader.cpp" />
+    <ClCompile Include="Device.cpp" />
+    <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="MeshGenerator.cpp" />
     <ClCompile Include="Quaternion.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vector.cpp" />

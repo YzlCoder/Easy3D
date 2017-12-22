@@ -6,147 +6,148 @@ namespace easym
 {
 	namespace light
 	{
+
+		struct Material
+		{
+			Material() { ZeroMemory(this, sizeof(this)); }
+			Vector3 ambient;
+			Vector3 diffuse;
+			Vector3 specular;
+			Vector3 reflect;
+			real shininess;
+		};
+
+
 		/*
 		* ambient 环境光
 		* diffuse 漫反射光
 		* specular 高光
 		*/
-
-		struct DirectionalLight
+		class Light
 		{
-			DirectionalLight() { ZeroMemory(this, sizeof(this)); }
-
+		public:
+			virtual void CalcLight(
+				/*  in    */Material mat,
+				/*  in  */const Vector3& pos,
+				/*  in  */const Vector3& normal,
+				/*  in   */Vector3 toEye,
+				/* out */Vector3& ambient,
+				/* out */Vector3& diffuse,
+				/* out */Vector3& spec) const = 0;
+		};
+		class DirectionalLight : public Light
+		{
+		public:
 			Vector3 ambient;
 			Vector3 diffuse;
 			Vector3 specular;
 			Vector3 direction;
+			virtual void CalcLight(
+				/*  in    */Material mat,
+				/*  in  */const Vector3& pos,
+				/*  in  */const Vector3& normal,
+				/*  in   */Vector3 toEye,
+				/* out */Vector3& ambient,
+				/* out */Vector3& diffuse,
+				/* out */Vector3& spec) const
+			{
+				ambient = mat.ambient * this->ambient;
+
+				Vector3 lightVec = - this->direction;
+				lightVec.Normalize();
+				diffuse = mat.diffuse *  this->diffuse * max(Dot(lightVec, normal), 0);
+
+				spec = mat.specular *  this->specular *
+					pow(max(Dot(Reflect(-lightVec, normal), toEye), 0.0f), mat.shininess);
+			}
 		};
 
-		struct PointLight
+		class PointLight : public Light
 		{
-			PointLight() { ZeroMemory(this, sizeof(this)); }
-
+		public:
 			Vector3 ambient;
 			Vector3 diffuse;
 			Vector3 specular;
 			Vector3 position;
 			Vector3 att;     //衰减系数
-			float range;      //光照范围
+			real range;      //光照范围
+			virtual void CalcLight(
+				/*  in    */Material mat,
+				/*  in  */const Vector3& pos,
+				/*  in  */const Vector3& normal,
+				/*  in   */Vector3 toEye,
+				/* out */Vector3& ambient,
+				/* out */Vector3& diffuse,
+				/* out */Vector3& spec) const
+			{
+				ambient = mat.ambient * this->ambient;
+
+				Vector3 lightVec = this->position - pos;
+				real d = lightVec.magnitude();
+				if (d > this->range)
+				{
+					diffuse = Vector3::zero;
+					spec = Vector3::zero;
+					return;
+				}
+				real att = 1.f / Dot(this->att, Vector3(1.f, d, d*d));
+
+				lightVec.Normalize();
+				diffuse = mat.diffuse *  this->diffuse *  max(Dot(lightVec, normal), 0) * att;
+
+				spec = mat.specular *  this->specular *
+					pow(max(Dot(Reflect(-lightVec, normal), toEye), 0.0f), mat.shininess);
+			}
 		};
 		 
-		struct SpotLight
+		struct SpotLight : public Light
 		{
-			SpotLight() { ZeroMemory(this, sizeof(this)); }
-
 			Vector3 ambient;
 			Vector3 diffuse;
 			Vector3 specular;
 			Vector3 position;
 			Vector3 direction;	
 			Vector3 att;
-			float range;			
-			float spot;		
+			real range;
+			real spot;
+			virtual void CalcLight(
+				/*  in    */Material mat,
+				/*  in  */const Vector3& pos,
+				/*  in  */const Vector3& normal,
+				/*  in   */Vector3 toEye,
+				/* out */Vector3& ambient,
+				/* out */Vector3& diffuse,
+				/* out */Vector3& spec)const
+			{
+				ambient = mat.ambient * this->ambient;
+
+				Vector3 lightVec = this->position - pos;
+				real d = lightVec.magnitude();
+
+				if (d > this->range)
+				{
+					diffuse = Vector3::zero;
+					spec = Vector3::zero;
+					return;
+				}
+
+				lightVec.Normalize();
+				diffuse = mat.diffuse * this->diffuse * (Dot(lightVec, normal), 0);
+
+				spec = mat.specular * this->specular *
+					pow(max(Dot(Reflect(-lightVec, normal), toEye), 0.0f), mat.shininess) * this->att;
+
+				//聚光衰减系数
+				real spot = pow(max(Dot(-lightVec, this->direction), 0.0f), this->spot);
+				//衰减系数
+				real att = spot / Dot(this->att, Vector3(1.0f, d, d*d));
+				ambient = ambient * spot;
+				diffuse = diffuse * att;
+				spec = spec * att;
+			}
 		};
 
-		struct Material
-		{
-			Material() { ZeroMemory(this, sizeof(this)); }
-
-			Vector3 ambient;
-			Vector3 diffuse;
-			Vector3 specular; 
-			Vector3 reflect;
-			real shininess;
-		};
-
-		inline void ComputeDirectionalLight(
-			/* in */const Material& mat,				
-			/* in */const DirectionalLight& L,
-			/* in */const Vector3& normal,
-			/* in */const Vector3& toEye,
-			/* in */Vector3& ambient,
-			/* out */Vector3& diffuse,
-			/* out */Vector3& spec)
-		{
-			ambient = mat.ambient * L.ambient;
-
-			Vector3 lightVec = - L.direction;
-			lightVec.Normalize();
-			diffuse = mat.diffuse * L.diffuse * max(Dot(lightVec, normal), 0);
-
-			spec = mat.specular * L.specular * 
-				pow(max(Dot(Reflect(-lightVec, normal), toEye), 0.0f), mat.shininess);
-		}
-
-		//计算点光源
-		inline void ComputePointLight(
-			/* in */const Material& mat,
-			/* in */const PointLight& L,
-			/* in */const Vector3& pos,
-			/* in */const Vector3& normal,
-			/* in */const Vector3& toEye,
-			/* out */Vector3& ambient,
-			/* out */Vector3& diffuse,
-			/* out */Vector3& spec)
-		{
-
-			ambient = mat.ambient * L.ambient;
-
-			Vector3 lightVec = L.position - pos;
-			float d = lightVec.magnitude();
-			if (d > L.range)
-			{
-				diffuse = Vector3::zero;
-				spec = Vector3::zero;
-				return;
-			}
-			float att = 1.f / Dot(L.att, Vector3(1.f, d, d*d));
-
-			lightVec.Normalize();
-			diffuse = mat.diffuse * L.diffuse *  max(Dot(lightVec, normal), 0) * att;
-
-			spec = mat.specular * L.specular *
-				pow(max(Dot(Reflect(-lightVec, normal), toEye), 0.0f), mat.shininess) * att;
-		}
-
-		//计算聚光灯
-		inline void  ComputeSpotLight(
-			/* in */const Material& mat,
-			/* in */const SpotLight& L,
-			/* in */const Vector3& pos,
-			/* in */const Vector3& normal,
-			/* in */const Vector3& toEye,
-			/* out */Vector3& ambient,
-			/* out */Vector3& diffuse,
-			/* out */Vector3& spec)
-		{
-
-			ambient = mat.ambient * L.ambient;
-
-			Vector3 lightVec = L.position - pos;
-			float d = lightVec.magnitude();
-
-			if (d > L.range)
-			{
-				diffuse = Vector3::zero;
-				spec = Vector3::zero;
-				return;
-			}
-
-			lightVec.Normalize();
-			diffuse = mat.diffuse * L.diffuse * (Dot(lightVec, normal), 0);
-			
-			spec = mat.specular * L.specular *
-				pow(max(Dot(Reflect(-lightVec, normal), toEye), 0.0f), mat.shininess) * att;
-
-			//聚光衰减系数
-			float spot = pow(max(Dot(-lightVec, L.direction), 0.0f), L.spot);
-			//衰减系数
-			float att = spot / Dot(L.att, Vector3(1.0f, d, d*d));
-			ambient = ambient * spot;
-			diffuse = diffuse * att;
-			spec = spec * att;
-		}
+	
 
 	}
 }

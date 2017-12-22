@@ -36,10 +36,28 @@
     <ClInclude Include="Texture2D.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="easy.h">
+    <ClInclude Include="Light.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
+    <ClInclude Include="BaseShader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="easym.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshGenerator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceContext.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxShader.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -60,6 +78,21 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Device.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshGenerator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceContext.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxShader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

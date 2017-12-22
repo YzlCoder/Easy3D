@@ -24,7 +24,7 @@ namespace easym
 		}
 
 		m_pixelBuffer = new Vector4[width * height];
-		memset(m_pixelBuffer, 0, width * height);
+		memset(m_pixelBuffer, 0, width * height * sizeof(Vector4));
 	}
 
 	Texture2D::Texture2D(UINT width, UINT height, void* data): m_width(width), m_height(height), m_pixelBuffer(nullptr)
@@ -39,12 +39,12 @@ namespace easym
 		}
 
 		m_pixelBuffer = new Vector4[width * height];
-		memcpy(m_pixelBuffer, data, width * height);
+		memcpy(m_pixelBuffer, data, width * height * sizeof(Vector4));
 	}
 
 	Texture2D::~Texture2D()
 	{
-		delete m_pixelBuffer;
+		delete[] m_pixelBuffer;
 		m_pixelBuffer = nullptr;
 	}
 
@@ -105,7 +105,7 @@ namespace easym
 		}
 	}
 
-	Texture2D LoadBitmap(wchar_t*  filePath)
+	Texture2D LoadTexture2D(wchar_t* filePath)
 	{
 		GdiplusStartupInput gdiplusstartupinput;
 		ULONG_PTR gdiplustoken;
@@ -127,7 +127,7 @@ namespace easym
 			Texture2D texture(width, height);
 
 			Color color;
-			UINT index = 1;
+			UINT index = 0;
 			for (UINT y = 0; y < height; y++)
 			{
 				for (UINT x = 0; x < width; x++)

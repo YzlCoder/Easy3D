@@ -60,11 +60,11 @@ namespace easym
 		Matrix operator* (const Matrix& rhs) const;
 
 		//转置
-		Matrix transpose(const Matrix& mat)const;
-		void Transpose(const Matrix& mat);
+		Matrix transpose()const;
+		void Transpose();
 
 		//4*4行列式值
-		real det(const Matrix& mat)const;
+		real det()const;
 
 		//3*3行列式值
 		real MatrixAdjElem(
@@ -73,10 +73,10 @@ namespace easym
 			real c1, real c2, real c3)const;
 
 		//伴随矩阵 代数余子式组成的矩阵的转置
-		Matrix adjugate(const Matrix& mat)const;
+		Matrix adjugate()const;
 
 		//逆矩阵 = 伴随矩阵/(行列式值的绝对值)
-		Matrix inverse(const Matrix& mat)const;
+		Matrix inverse()const;
 
 #ifdef DEBUG
 		void DebugLog() const

@@ -11,14 +11,14 @@ namespace easym
 	const Vector2 Vector2::down(0, -1);
 
 
-	const Vector3 left(-1, 0, 0);
-	const Vector3 right(1, 0, 0);
-	const Vector3 up(0, 1, 0);
-	const Vector3 down(0, -1, 0);
-	const Vector3 forward(0, 0, 1);
-	const Vector3 back(0, 0, -1);
-	const Vector3 one(1, 1, 1);
-	const Vector3 zero(0, 0, 0);
+	const Vector3 Vector3::left(-1, 0, 0);
+	const Vector3 Vector3::right(1, 0, 0);
+	const Vector3 Vector3::up(0, 1, 0);
+	const Vector3 Vector3::down(0, -1, 0);
+	const Vector3 Vector3::forward(0, 0, 1);
+	const Vector3 Vector3::back(0, 0, -1);
+	const Vector3 Vector3::one(1, 1, 1);
+	const Vector3 Vector3::zero(0, 0, 0);
 
 
 	real Dot(const Vector2& a, const Vector2& b)
@@ -64,6 +64,15 @@ namespace easym
 			a.y + (b.y - a.y) * t,
 			a.z + (b.z - a.z) * t);
 	}
+
+	Vector4 Lerp(const Vector4& a, const Vector4& b, real t)
+	{
+		return Vector4(a.x + (b.x - a.x) * t,
+			a.y + (b.y - a.y) * t,
+			a.z + (b.z - a.z) * t,
+			a.w);
+	}
+
 	Vector2 Reflect(const Vector2& I, const Vector2& N)
 	{
 		real tmp = 2.f * Dot(N, I);
