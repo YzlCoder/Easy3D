@@ -170,6 +170,9 @@ int WINAPI wWinMain(HINSTANCE hInstance,   //当前程序实例句柄
 	_In_ int nShowCmd)                     //窗口的显示方式
 {
 
+	AllocConsole();
+	freopen("conout$", "w", stdout);
+	
 	g_hInstance = hInstance;
 	BOOL nRet = Register("Main", WndProc);
 	if (!nRet)

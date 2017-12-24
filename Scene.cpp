@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "BoxShader.h"
+#include <time.h>
 using namespace easym;
 
 Scene::Scene()
@@ -34,7 +35,7 @@ bool Scene::Init(HINSTANCE hInstance, HWND hWnd)
 {
 	m_hWnd = hWnd;
 	m_hInstance = hInstance;
-
+	m_lastTime = clock();
 	RECT rc;
 	GetClientRect(m_hWnd, &rc);
 	m_width = rc.right - rc.left;
@@ -58,7 +59,7 @@ bool Scene::Init(HINSTANCE hInstance, HWND hWnd)
 	m_bInit = true;
 	m_projMat = perspective(pi / 4, m_width / static_cast<float>(m_height), 1.f, 100.f);
 	
-	Vector4 pos(0, 2, -5, 1.f);
+	Vector4 pos(0, 2, -10, 1.f);
 	Vector4 target(0.f, 0.f, 0.f, 1.f);
 	Vector4 up(0.f, 1.f, 0.f, 0.f);
 	m_viewMat = lookat(pos, target, up);
@@ -69,6 +70,8 @@ bool Scene::Init(HINSTANCE hInstance, HWND hWnd)
 
 void Scene::Update()
 {
+	std::cout << 1000.f/(clock() - m_lastTime) << std::endl;
+	m_lastTime = clock();
 }
 void Scene::Render()
 {

@@ -27,7 +27,7 @@ private:
 	int	m_width, m_height;
 	POINT m_lastMousePos;
 	bool m_bInit;
-
+	int m_lastTime;
 
 	easym::Matrix m_modelMat, m_viewMat, m_projMat;
 	std::shared_ptr<easym::DeviceContext> m_pImmediateContext;
